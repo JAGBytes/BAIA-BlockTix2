@@ -1,0 +1,34 @@
+# Node modules (raíz y frontend)
+node_modules/
+frontend/node_modules/
+
+# Archivos de entorno
+.env
+.env.*
+
+# Archivos de lock de npm (si solo usas yarn)
+package-lock.json
+frontend/package-lock.json
+
+# Archivos de build y dependencias de Hardhat
+artifacts/
+cache/
+typechain/
+typechain-types/
+coverage/
+coverage.json
+
+# Hardhat Ignition deployments locales
+ignition/deployments/chain-31337
+
+# Archivos de build de React
+frontend/build/
+frontend/dist/
+
+# Archivos del sistema/editor
+.DS_Store
+Thumbs.db
+*.log
+
+# Otros archivos temporales
+*.tsbuildinfo
