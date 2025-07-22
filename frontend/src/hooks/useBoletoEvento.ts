@@ -91,10 +91,21 @@ export function useBoletoEvento() {
   const callContract = async (fnName: string, ...args: any[]) => {
     if (!contract) throw new Error("Contrato no conectado");
     console.log(`Llamando ${fnName} con argumentos:`, args);
-    const result = await contract[fnName](...args);
-    console.log(`Resultado de ${fnName}:`, result);
-    return result;
+    try {
+      const result = await contract[fnName](...args);
+      console.log(`Resultado de ${fnName}:`, result);
+      
+      // Convertir bigint a number cuando sea seguro hacerlo
+      if (typeof result === 'bigint' && result <= Number.MAX_SAFE_INTEGER) {
+        return Number(result);
+      }
+      return result;
+    } catch (error: any) {
+      console.error(`Error al llamar ${fnName}:`, error);
+      throw error;
+    }
   };
+  
 
   // NUEVAS FUNCIONES PARA EL CONTRATO MODIFICADO
   const cantidadInicial = async (eventoId: number) => {
@@ -113,7 +124,7 @@ export function useBoletoEvento() {
     comprarBoleto,
     verEvento,
     tengoBoleto: (id: number) => callContract("tengoBoleto", id),
-    contadorEventos: () => callContract("contadorEventos"),
+    contadorEventos: () => callContract("contadorEventos").then(Number),
     getOwner: () => callContract("owner"),
     retirarFondos: () => callContract("retirarFondos"),
     cantidadInicial,

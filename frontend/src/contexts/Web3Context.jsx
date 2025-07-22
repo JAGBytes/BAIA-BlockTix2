@@ -16,6 +16,12 @@ export function Web3Provider({ children }) {
   // Al montar: detecta si MetaMask está disponible y lista cuentas
   useEffect(() => {
     if (window.ethereum) {
+      localStorage.clear();
+      sessionStorage.clear();
+      setAccount(null);
+      setSigner(null);
+      setContract(null);
+      setProvider(null);
       const p = new ethers.BrowserProvider(window.ethereum);
       setProvider(p);
       (async () => {
